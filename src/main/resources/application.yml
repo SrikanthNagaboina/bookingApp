@@ -1,0 +1,40 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+spring:
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: 'false'
+        order_inserts: 'true'
+        order_updates: 'true'
+        show_sql: false
+        format_sql: false
+        jdbc:
+          batch_size: '30'
+          time_zone: Asia/Kolkata
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+        event:
+          merge:
+            entity_copy_observer: allow
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  datasource:
+    password: ${RDS_PASSWORD:root}
+    url: jdbc:postgresql://${RDS_HOSTNAME:localhost}:${RDS_PORT:5432}/${RDS_DB_NAME:ticket_db}
+    hikari:
+      connectionTimeout: '300000'
+      maximumPoolSize: '50'
+      minimumIdle: '5'
+      maxLifetime: '200000'
+      idleTimeout: '120000'
+      leakDetectionThreshold: '300000'
+    username: ${RDS_USERNAME:postgres}
+    initialization-mode: always
+  jackson:
+    deserialization:
+      adjust-dates-to-context-time-zone: 'true'
